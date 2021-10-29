@@ -8,7 +8,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           {/* Edit <code>src/App.js</code> and save to reload. */}
-          Do my best! OhaYu is the best!!
+          Do my best! Ozu is the best!!
           Yeah!!
         </p>
         <a
