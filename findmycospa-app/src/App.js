@@ -6,6 +6,7 @@ import styled from 'styled-components'
 function App() {
 
   // 第１変数がstate, 第２変数がstateを変化させる関数
+  //I'm find.
   const [input, setInput] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [finishedList, setFinishedList] = useState([]);
