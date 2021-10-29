@@ -9,6 +9,7 @@ function App() {
         <p>
           {/* Edit <code>src/App.js</code> and save to reload. */}
           Do my best! OhaYu is the best!!
+          Yeah!!
         </p>
         <a
           className="App-link"
