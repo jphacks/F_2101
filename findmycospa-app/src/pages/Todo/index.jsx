@@ -9,7 +9,7 @@ const Todo = ({todoList, deleteTodo, changeTodoStatus, type}) => (
       <Container>
         {todo}
         <button onClick={() => deleteTodo(idx)}>削除</button>
-        <button onClick={() => changeTodoStatus(idx)}>{type === "todo" ? "完了済みにする" : "戻す"}</button>
+        {/*<button onClick={() => changeTodoStatus(idx)}>{type === "todo" ? "完了済みにする" : "戻す"}</button>*/}
       </Container>
     ))}
   </div>

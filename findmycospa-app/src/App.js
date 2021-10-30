@@ -84,10 +84,23 @@ function App() {
     if (!!(input && input_cost)) {
       // 追記 Todoが変化したのでtrue
       setIsChangedTodo(true);
-      var info_all = input+','+input_cost;
-      setTodoList([...todoList, input, input_cost, info_all]);
+
+      var Today = new Date();
+
+      var count_day = ((Today - startDate) / 86400000)+1;
+
+      var count_time = count_day*(input_time/kind_time);
+
+      var cospa = Math.round((input_cost/count_time) * 10)/10;
+
+      var info_all = '商品名：'+input+'，1回あたり：'+cospa+'円，\n買ったときの価格：'+input_cost+'円';
+      setTodoList([...todoList, info_all]);
       setInput('');
       setInputCost('');
+      setKindTime('');
+      setInputTime('');
+      setStartDate(initialDate);
+      
     }
   }
 
@@ -125,16 +138,15 @@ function App() {
       <Background>
         <p>
           商品名：
-          <input onChange={(e) => setInput(e.target.value)} value={input}/>
+          <input onChange={(e) => setInput(e.target.value)} style={{width: "400px"}} value={input}/>
         </p>
         <p>
           買ったときの価格：
-          <input onChange={(e) => setInputCost(e.target.value)} value={input_cost}/>
+          <input onChange={(e) => setInputCost(e.target.value)} style={{width: "320px"}} value={input_cost}/>
           円
         </p>
 
         <div>
-          <p>
             購入日：
             <DatePicker
               dateFormat="yyyy/MM/dd"
@@ -144,15 +156,15 @@ function App() {
               selected={startDate}
               //minDate={Today}
             />
-          </p>
+            <p></p>
         </div>
 
         <div>
           頻度：
           <select value={kind_time} onChange={(e) => setKindTime(e.target.value)}>
-            <option value="year">年</option>
-            <option value="month">月</option>
-            <option value="week">週</option>
+            <option value="365">年（365日）</option>
+            <option value="30">月（30日）</option>
+            <option value="7">週（7日）</option>
           </select>
           に
           <input onChange={(e) => setInputTime(e.target.value)} style={{width: "20px"}} value={input_time}/>
@@ -162,7 +174,7 @@ function App() {
 
         <div>
           <p>
-            <button onClick={() => addTodo()}>決定</button>
+            <center><button onClick={() => addTodo()}>決定</button></center>
           </p>
         </div>
       </Background>
@@ -173,13 +185,13 @@ function App() {
         <TodoContainer>
         {/* todoListという変数とdeleteTodoという関数をpropsとしてTodoコンポーネントに渡している*/}
           <SubContainer>
-            <SubTitle>未完了</SubTitle>
+            <SubTitle>持ち物リスト</SubTitle>
             <Todo todoList={todoList} deleteTodo={deleteTodo} changeTodoStatus={finishTodo} type="todo"/>
           </SubContainer>
-          <SubContainer>
+          {/*<SubContainer>
             <SubTitle>完了済み</SubTitle>
             <Todo todoList={finishedList} deleteTodo={deleteFinishTodo} changeTodoStatus={reopenTodo} type="done"/>
-          </SubContainer>
+          </SubContainer>*/}
         </TodoContainer>
       }
       
@@ -194,7 +206,7 @@ export default App;
 
 const Title = styled.p`
   font-size: 26px;
-  color: #0097a7;
+  color: #87AAAA;
   letter-spacing: 2.8px;
   font-weight: 500;
   width: 500px;
@@ -206,13 +218,13 @@ const SubTitle = styled.p`
 `;
 
 const SubContainer = styled.div`
-  width: 400px;
+  width: 100%;
 `;
 
 const TodoContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   justify-content: space-between;
 `;
@@ -223,5 +235,5 @@ const Loading = styled.div`
 
 const Background = styled.div`
   width: 500px;
-  background-color: rgba(0, 255, 100, 0.5);
+  background-color: rgba(200, 277, 212, 0.5);
 `;
