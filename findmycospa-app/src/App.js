@@ -25,15 +25,19 @@ function App() {
   const [isChangedFinished, setIsChangedFinished] = useState(false);
 
   const [input_cost, setInputCost] = useState('');
+  const [kind_time, setKindTime] = React.useState('react');
+  const [input_time, setInputTime] = useState('');
 
-  const [kind_time, setVal] = React.useState('react');
-  const handleChange = e => setVal(e.target.value);
 
   const db = firebase.firestore(); // 追記
 
   // カレンダー入力用
-  const Today = new Date();
   registerLocale("ja", ja);
+  const initialDate = new Date()
+  const [startDate, setStartDate] = useState(initialDate)
+  const handleChange = (date) => {
+    setStartDate(date)
+  }
 
   // 追記 一番最初にfirestoreからデータを取ってきてstateに入れる
   useEffect(() => {
@@ -117,36 +121,52 @@ function App() {
 
   return (
     <div className="App">
-      <Title>Find My "KOSUPA"</Title>
+      <Title><center>Find My "KOSUPA"</center></Title>
       <p>
-        商品名
+        商品名：
         <input onChange={(e) => setInput(e.target.value)} value={input}/>
       </p>
       <p>
-        買ったときの価格
+        買ったときの価格：
         <input onChange={(e) => setInputCost(e.target.value)} value={input_cost}/>
+        円
       </p>
 
-      <>
-        <select value={kind_time} onChange={handleChange}>
-          <option value="react">React</option>
-          <option value="vue">Vue.js</option>
-          <option value="angular">Angular</option>
+      
+
+      <div>
+        <p>
+          購入日：
+          <DatePicker
+            dateFormat="yyyy/MM/dd"
+            locale="ja"
+            onChange={handleChange}
+            placeholderText="購入日を選択してください"
+            selected={startDate}
+            //minDate={Today}
+          />
+        </p>
+      </div>
+
+      <div>
+        頻度：
+        <select value={kind_time} onChange={(e) => setKindTime(e.target.value)}>
+          <option value="year">年</option>
+          <option value="month">月</option>
+          <option value="week">週</option>
         </select>
-        <p>選択値：{kind_time}</p>
-      </>
+        に
+        <input onChange={(e) => setInputTime(e.target.value)} style={{width: "20px"}} value={input_time}/>
+        回
+      </div>
+      
 
-      購入日
-      <DatePicker
-        dateFormat="yyyy/MM/dd"
-        locale="ja"
-        selected={Today}
-        onChange={2021/11/11}
-        placeholderText="日付を選択してください"
-        //minDate={Today}
-      />
-
-      <button onClick={() => addTodo()}>追加</button>
+      <div>
+        <p>
+          <button onClick={() => addTodo()}>決定</button>
+        </p>
+      </div>
+      
       {isLoading ? 
         <Loading>Loading List</Loading>
       :
