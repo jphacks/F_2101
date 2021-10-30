@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import firebase from 'firebase'; // 追記
 import 'firebase/firestore'; // 追記
 
+// カレンダー入力用
+import DatePicker, { registerLocale } from "react-datepicker";
+import ja from "date-fns/locale/ja";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 function App() {
 
   // 第１変数がstate, 第２変数がstateを変化させる関数
@@ -18,7 +24,16 @@ function App() {
   // 完了済みのTodoが変化したかを監視する変数
   const [isChangedFinished, setIsChangedFinished] = useState(false);
 
+  const [input_cost, setInputCost] = useState('');
+
+  const [kind_time, setVal] = React.useState('react');
+  const handleChange = e => setVal(e.target.value);
+
   const db = firebase.firestore(); // 追記
+
+  // カレンダー入力用
+  const Today = new Date();
+  registerLocale("ja", ja);
 
   // 追記 一番最初にfirestoreからデータを取ってきてstateに入れる
   useEffect(() => {
@@ -62,11 +77,13 @@ function App() {
   }, [db, finishedList, isChangedFinished])
 
   const addTodo = async () => {
-    if (!!input) {
+    if (!!(input && input_cost)) {
       // 追記 Todoが変化したのでtrue
       setIsChangedTodo(true);
-      setTodoList([...todoList, input]);
+      var info_all = input+','+input_cost;
+      setTodoList([...todoList, input, input_cost, info_all]);
       setInput('');
+      setInputCost('');
     }
   }
 
@@ -100,11 +117,38 @@ function App() {
 
   return (
     <div className="App">
-      <Title>Todoリスト</Title>
-      <input onChange={(e) => setInput(e.target.value)} value={input}/>
+      <Title>Find My "KOSUPA"</Title>
+      <p>
+        商品名
+        <input onChange={(e) => setInput(e.target.value)} value={input}/>
+      </p>
+      <p>
+        買ったときの価格
+        <input onChange={(e) => setInputCost(e.target.value)} value={input_cost}/>
+      </p>
+
+      <>
+        <select value={kind_time} onChange={handleChange}>
+          <option value="react">React</option>
+          <option value="vue">Vue.js</option>
+          <option value="angular">Angular</option>
+        </select>
+        <p>選択値：{kind_time}</p>
+      </>
+
+      購入日
+      <DatePicker
+        dateFormat="yyyy/MM/dd"
+        locale="ja"
+        selected={Today}
+        onChange={2021/11/11}
+        placeholderText="日付を選択してください"
+        //minDate={Today}
+      />
+
       <button onClick={() => addTodo()}>追加</button>
       {isLoading ? 
-        <Loading>loading</Loading>
+        <Loading>Loading List</Loading>
       :
         <TodoContainer>
         {/* todoListという変数とdeleteTodoという関数をpropsとしてTodoコンポーネントに渡している*/}
@@ -118,9 +162,12 @@ function App() {
           </SubContainer>
         </TodoContainer>
       }
+      
     </div>
   );
 };
+
+
 
 export default App;
 
