@@ -122,50 +122,50 @@ function App() {
   return (
     <div className="App">
       <Title><center>Find My "KOSUPA"</center></Title>
-      <p>
-        商品名：
-        <input onChange={(e) => setInput(e.target.value)} value={input}/>
-      </p>
-      <p>
-        買ったときの価格：
-        <input onChange={(e) => setInputCost(e.target.value)} value={input_cost}/>
-        円
-      </p>
-
-      
-
-      <div>
+      <Background>
         <p>
-          購入日：
-          <DatePicker
-            dateFormat="yyyy/MM/dd"
-            locale="ja"
-            onChange={handleChange}
-            placeholderText="購入日を選択してください"
-            selected={startDate}
-            //minDate={Today}
-          />
+          商品名：
+          <input onChange={(e) => setInput(e.target.value)} value={input}/>
         </p>
-      </div>
-
-      <div>
-        頻度：
-        <select value={kind_time} onChange={(e) => setKindTime(e.target.value)}>
-          <option value="year">年</option>
-          <option value="month">月</option>
-          <option value="week">週</option>
-        </select>
-        に
-        <input onChange={(e) => setInputTime(e.target.value)} style={{width: "20px"}} value={input_time}/>
-        回
-      </div>
-      
-
-      <div>
         <p>
-          <button onClick={() => addTodo()}>決定</button>
+          買ったときの価格：
+          <input onChange={(e) => setInputCost(e.target.value)} value={input_cost}/>
+          円
         </p>
-      </div>
+
+        <div>
+          <p>
+            購入日：
+            <DatePicker
+              dateFormat="yyyy/MM/dd"
+              locale="ja"
+              onChange={handleChange}
+              placeholderText="購入日を選択してください"
+              selected={startDate}
+              //minDate={Today}
+            />
+          </p>
+        </div>
+
+        <div>
+          頻度：
+          <select value={kind_time} onChange={(e) => setKindTime(e.target.value)}>
+            <option value="year">年</option>
+            <option value="month">月</option>
+            <option value="week">週</option>
+          </select>
+          に
+          <input onChange={(e) => setInputTime(e.target.value)} style={{width: "20px"}} value={input_time}/>
+          回
+        </div>
+        
+
+        <div>
+          <p>
+            <button onClick={() => addTodo()}>決定</button>
+          </p>
+        </div>
+      </Background>
       
       {isLoading ? 
         <Loading>Loading List</Loading>
@@ -196,7 +196,8 @@ const Title = styled.p`
   font-size: 26px;
   color: #0097a7;
   letter-spacing: 2.8px;
-  font-weight: 200;
+  font-weight: 500;
+  width: 500px;
 `;
 
 const SubTitle = styled.p`
@@ -218,4 +219,9 @@ const TodoContainer = styled.div`
 
 const Loading = styled.div`
   margin: 40px auto;
+`;
+
+const Background = styled.div`
+  width: 500px;
+  background-color: rgba(0, 255, 100, 0.5);
 `;
